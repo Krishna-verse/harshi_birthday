@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Krishna Kumar" />
+  <title>Birthday Surprise</title>
+
+  <link rel="icon" type="image/x-icon" href="./logo.ico" />
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+</head>
+<body>
+
+  <!-- PARTICLE BACKGROUND -->
+  <div id="particles-bg"></div>
+
+  <!-- GLOBAL OVERLAY -->
+  <div id="overlay" class="overlay"></div>
+
+  <!-- FLOATING CHAT -->
+  <div id="chatToggle">💬</div>
+  <div id="chatbot">
+    <div id="chatHeader">🤖 Ask About Me</div>
+    <div id="chatBody">
+      <div class="bot-msg">Hi! 👋 Choose a question:</div>
+      <div class="quick-btns">
+        <button onclick="quickReply('birthday')">🎂 Birthday?</button>
+        <button onclick="quickReply('age')">🎈 Age?</button>
+        <button onclick="quickReply('hobby')">🎮 Hobbies?</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- START SCREEN -->
+  <div id="startScreen" class="center">
+    <button id="startBtn">LET'S GO 🚀</button>
+  </div>
+
+  <!-- INTRO -->
+  <div id="intro" class="center">
+    <h1 class="intro-text">
+      <span>INTOTOXICATING</span>
+      <span>THE WORLD</span>
+      <span>ON</span>
+      <span>7TH APRIL 2008</span>
+    </h1>
+  </div>
+
+  <audio id="bgm">
+    <source src="bgm.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- MAIN PAGE -->
+  <div id="mainContent">
+    <header>
+      <h1>🎉 Happy Birthday Harshi ! 🎉</h1>
+      <p>A little surprise page made with love 💖</p>
+
+      <div class="countdown-box">
+        <h2 id="countdown"></h2>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="card" id="wishCard">
+        <h2>💌 Wishes</h2>
+        <p>Some wishes for you</p>
+      </div>
+
+      <div class="card" id="musicCard">
+  <h2>🎵 Music Player</h2>
+  <p>Play your birthday playlist</p>
+</div>
+
+      <div class="card" id="shareCard">
+        <h2>📤 Share</h2>
+        <p>Share this surprise page</p>
+      </div>
+<div class="card" id="aboutCard">
+  <h2>🫶 About You</h2>
+  <p>Little things that make you, you</p>
+</div>
+      <div class="card" id="gameCard">
+        <h2>🎮 Play Game</h2>
+        <p>Catch the cake!</p>
+      </div>
+
+      <div class="card" id="rizzCard">
+        <h2>😏 Rizz for You</h2>
+        <p>Smooth lines only</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTY POPUP -->
+  <div id="partyPopup" class="popup-box wide-popup">
+    <span class="popup-close" onclick="closeParty()">&times;</span>
+    <div class="video-wrapper">
+      <video id="partyVideo" playsinline controls></video>
+    </div>
+    <button class="primary-btn" onclick="closeParty()">Close Party</button>
+  </div>
+
+  <!-- WISH POPUP -->
+  <div id="wishPopup" class="popup-box">
+    <span class="popup-close" onclick="closeWish()">&times;</span>
+    <h2>💌 Some Wishes for You</h2>
+    <div class="message-card">
+      <p>✨ May your smile always stay this bright.</p>
+      <p>💖 May life give you peace, success, and endless happiness.</p>
+      <p>🌸 May every dream you have slowly turn into reality.</p>
+      <p>🎂 And may this year be kinder, sweeter, and more beautiful for you.</p>
+    </div>
+  </div>
+
+  <!-- SHARE POPUP -->
+  <div id="sharePopup" class="popup-box small-popup">
+    <span class="popup-close" onclick="closeShare()">&times;</span>
+    <h2>📤 Share This Page</h2>
+    <button class="primary-btn" onclick="shareWhatsApp()">📱 WhatsApp</button>
+    <button class="primary-btn" onclick="copyLink()">🔗 Copy Link</button>
+    <button class="primary-btn" onclick="nativeShare()">🚀 More Options</button>
+    <p id="copyMsg"></p>
+  </div>
+
+  <!-- RIZZ POPUP -->
+  <div id="rizzPopup" class="popup-box rizz-popup">
+    <span class="popup-close" onclick="closeRizz()">&times;</span>
+    <h2>😏 Rizz for You</h2>
+    <p class="rizz-subtitle">Tap below and get a smooth line ✨</p>
+    <button id="generateRizzBtn" class="primary-btn">✨ Generate Rizz</button>
+    <div id="rizzOutput"></div>
+    <div id="heartBurstContainer"></div>
+  </div>
+
+  <!-- GAME POPUP -->
+  <div id="gamePopup" class="popup-box wide-popup">
+    <span class="popup-close" onclick="closeGame()">&times;</span>
+
+    <div id="gameStart">
+      <h2>🎮 Catch the Cake</h2>
+      <p>Tap cakes 🎂, avoid bombs 💣</p>
+      <button class="primary-btn" onclick="startGameUI()">Start Game</button>
+    </div>
+
+    <div id="gameScreen" style="display:none;">
+      <p>⏱ <span id="timeLeft">40</span>s | 🎯 <span id="score">0</span></p>
+      <div id="gameArea"></div>
+    </div>
+
+    <div id="gameEnd" style="display:none;">
+      <h2>🏁 Game Over</h2>
+      <p>Your Score: <span id="finalScore"></span></p>
+
+      <h3>🏆 Leaderboard</h3>
+      <ul id="leaderboard"></ul>
+
+      <button class="primary-btn" onclick="restartGame()">Play Again</button>
+      <button class="primary-btn" onclick="closeGame()">Close</button>
+    </div>
+  </div>
+
+  <!-- MUSIC POPUP -->
+<div id="musicPopup" class="popup-box small-popup">
+  <span class="popup-close" onclick="closeMusic()">&times;</span>
+  <h2>🎵 Birthday Playlist</h2>
+
+  <div class="music-box">
+    <h3 id="songTitle">Song 1</h3>
+    <p id="songStatus">Ready to play 🎶</p>
+
+    <div class="music-controls">
+      <button class="primary-btn" id="prevBtn">⏮</button>
+      <button class="primary-btn" id="playBtn">▶</button>
+      <button class="primary-btn" id="nextBtn">⏭</button>
+    </div>
+
+    <p id="playlistCount">1 / 5</p>
+  </div>
+</div>
+
+<!-- ABOUT YOU POPUP -->
+<div id="aboutPopup" class="popup-box about-popup">
+  <span class="popup-close" onclick="closeAbout()">&times;</span>
+
+  <div class="about-image-wrap" id="aboutImageWrap">
+    <img src="harshi_img.jpeg" alt="About You Picture" class="about-img" />
+    <div class="about-image-overlay"></div>
+  </div>
+
+  <div class="about-content">
+    <h2>🫶 About You</h2>
+    <p class="about-subtitle">Some cute facts, some dangerous facts 😌</p>
+    <div id="aboutText" class="about-text typing-cursor"></div>
+  </div>
+</div>
+  <script src="test.js"></script>
+</body>
+</html>
